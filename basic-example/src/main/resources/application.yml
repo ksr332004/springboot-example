@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:h2:~/project
+    data-username: sa
+    data-password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
