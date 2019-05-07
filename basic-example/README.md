@@ -9,7 +9,7 @@ Spring-Boot-Thymeleaf-Basic-Example
 - JPA
 - H2
 
-##Structure
+## Structure
 ~~~bash
 main
 ├── java
@@ -36,12 +36,12 @@ main
         └── write-board.html
 ~~~
 
-##Comment
-###@Controller vs @RestController
+## Comment
+### @Controller vs @RestController
 - @Controller는 @ResponseBody를 이용하여 객체를 JSON 형식으로 반환시킴
 - @RestController는 객체를 JSON/XML 타입으로 반환하는 REST 서비스에 최적화되어 있음
 
-###Formatting date in Thymeleaf
+### Formatting date in Thymeleaf
 - 객체에 선언된 날짜 타입에 따라 Thymeleaf 날짜 출력 형식이 달라짐
 ~~~html
 /* 객체에 선언된 형식이 Date일 경우 */
