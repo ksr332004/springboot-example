@@ -24,7 +24,7 @@ public class BoardController {
     }
 
     @PostMapping("/write/add")
-    public String saveBoard(@Valid Board board, BindingResult bindingResult, Model model) {
+    public String saveBoard(@Valid Board board, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "write-board";
         }
@@ -45,7 +45,6 @@ public class BoardController {
     }
 
     @PostMapping("/edit/update")
-//    @PutMapping("/edit/update")
     public String updateBoard(@Valid Board board, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("board", boardService.findBoardById(board.getId()));
@@ -56,7 +55,6 @@ public class BoardController {
     }
 
     @GetMapping("/delete/{id}")
-//    @DeleteMapping("/delete/{id}")
     public String deleteBoardById(@PathVariable("id") Long id) {
         boardService.deleteBoardById(id);
         return "redirect:/board/list";

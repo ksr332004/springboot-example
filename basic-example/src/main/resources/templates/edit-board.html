@@ -13,10 +13,6 @@
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
     </div>
     <div>
-        <label>작성일</label>
-        <p th:text="${createDate}"></p>
-    </div>
-    <div>
         <label for="title">제목</label>
         <input type="text" th:field="*{title}" id="title" placeholder="Title">
         <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
