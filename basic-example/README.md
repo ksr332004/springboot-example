@@ -36,10 +36,43 @@ main
         └── write-board.html
 ~~~
 
+## Getting Started
+### Git Clone
+~~~bash
+# make directory
+mkdir {your_directory}
+cd {your_directory}
+
+git init
+
+git config core.sparseCheckout true
+
+git remote add -f origin https://github.com/ksr332004/springboot-example.git
+
+echo "basic-example/*">.git/info/sparse-checkout
+# echo "basic-example/*"| out-file -encoding ascii .git/info/sparse-checkout  # Windows OS
+
+git pull origin master
+~~~
+
+### Server Starter
+~~~bash
+cd {your_directory}\springboot-example\basic-example
+
+#build
+gradle build
+# gradlew build  # Windows OS
+
+#start
+gradle bootRun
+~~~
+
 ## Comment
 ### @Controller vs @RestController
 - @Controller는 @ResponseBody를 이용하여 객체를 JSON 형식으로 반환시킴
 - @RestController는 객체를 JSON/XML 타입으로 반환하는 REST 서비스에 최적화되어 있음
+
+### Modelview vs 
 
 ### Formatting date in Thymeleaf
 - 객체에 선언된 날짜 타입에 따라 Thymeleaf 날짜 출력 형식이 달라짐
