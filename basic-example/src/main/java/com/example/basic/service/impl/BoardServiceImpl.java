@@ -39,13 +39,16 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board updateBoard(Board board) {
         Optional<Board> updateBoard = boardRepository.findById(board.getId());
-        if (updateBoard.isPresent()) {
-            updateBoard.get().setName(board.getName());
-            updateBoard.get().setTitle(board.getTitle());
-            updateBoard.get().setContent(board.getContent());
-            boardRepository.save(updateBoard.get());
+
+        if (!updateBoard.isPresent()) {
+            return null;
         }
-        return null;
+
+        updateBoard.get().setName(board.getName());
+        updateBoard.get().setTitle(board.getTitle());
+        updateBoard.get().setContent(board.getContent());
+
+        return boardRepository.save(updateBoard.get());
     }
 
     @Override
@@ -54,6 +57,5 @@ public class BoardServiceImpl implements BoardService {
         if (deleteBoard.isPresent()) {
             boardRepository.delete(deleteBoard.get());
         }
-        return ;
     }
 }
