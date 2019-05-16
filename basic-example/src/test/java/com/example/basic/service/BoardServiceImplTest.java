@@ -12,9 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BoardServiceImpl.class)
@@ -25,15 +24,14 @@ public class BoardServiceImplTest {
     private BoardServiceImpl BoardServiceImpl;
 
     @Test
-    public void whenSaveBoard_thenReturnBoard() {
+    public void whenSaveBoard_thenBoardIsCreated() {
         // given
         Board testBoard = new Board(1L, "이름", "제목", "내용", LocalDateTime.now());
-        when(boardRepository.save(any(Board.class))).thenReturn(new Board());
 
         // when
-        Board saveBoard = BoardServiceImpl.saveBoard(testBoard);
+        BoardServiceImpl.saveBoard(testBoard);
 
         // then
-        assertThat(saveBoard.getId()).isEqualTo(testBoard.getId());
+        verify(boardRepository, times(1)).save(testBoard);
     }
 }
