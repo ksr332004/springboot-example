@@ -27,11 +27,6 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Optional<Board> findBoardByTitle(String title) {
-        return boardRepository.findByTitle(title);
-    }
-
-    @Override
     public List<Board> findAll() {
         return boardRepository.findAll();
     }
