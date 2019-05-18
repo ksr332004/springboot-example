@@ -1,7 +1,11 @@
 package com.example.basic.controller;
 
 import com.example.basic.domain.Board;
+import com.example.basic.dto.PageRequest;
+import com.example.basic.repository.BasicPaginationRepository;
 import com.example.basic.service.BoardService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +39,28 @@ public class BoardController {
     @GetMapping("/list")
     public String showListBoardForm(Model model) {
         model.addAttribute("boards", boardService.findAll());
+        model.addAttribute("showForm", "none");
+        return "list-board";
+    }
+
+    @GetMapping("/list/basic1")
+    public String showBasic1ListBoardForm(Pageable pageable, Model model) {
+        model.addAttribute("getUri", "basic1");
+        model.addAttribute("boards", boardService.basicPaginationFindAll(pageable));
+        return "list-board";
+    }
+
+    @GetMapping("/list/basic2")
+    public String showBasic2ListBoardForm(PageRequest pageRequest, Model model) {
+        model.addAttribute("getUri", "basic2");
+        model.addAttribute("boards", boardService.basicPaginationFindAll(pageRequest.of()));
+        return "list-board";
+    }
+
+    @GetMapping("/list/querydsl")
+    public String showQuerydalListBoardForm(PageRequest pageRequest, Model model) {
+        model.addAttribute("getUri", "querydsl");
+        model.addAttribute("boards", boardService.querydslPaginationFindAll(pageRequest.of()));
         return "list-board";
     }
 

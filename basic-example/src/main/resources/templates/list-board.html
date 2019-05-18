@@ -29,6 +29,17 @@
                 </tr>
                 </tbody>
             </table>
+            <div th:if="${boards.pageable}">
+                <P th:inline="text">총 [[${boards.totalElements}]] 건</P>
+                <a th:if="${getUri} == 'basic1'"
+                   th:each="seq : ${#numbers.sequence(1, boards.totalPages)}"
+                   th:text="${seq}"
+                   th:href="@{/board/list/${getUri}(page=${seq}-1)}"> </a>
+                <a th:if="${getUri} != 'basic1'"
+                   th:each="seq : ${#numbers.sequence(1, boards.totalPages)}"
+                   th:text="${seq}"
+                   th:href="@{/board/list/${getUri}(page=${seq})}"> </a>
+            </div>
         </div>
         <p><a href="/board/write">게시글 작성</a></p>
     </div>
