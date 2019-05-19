@@ -5,7 +5,7 @@ import org.springframework.data.domain.Sort;
 
 @Data
 public class PageRequest {
-    static int DEFAULT_SIZE = 10;
+    static int DEFAULT_SIZE = 5;
     static int MAX_SIZE = 30;
 
     private int page;
@@ -22,7 +22,7 @@ public class PageRequest {
     }
 
     public PageRequest() {
-        this.page = 0;
+        this.page = 1;
         this.size = DEFAULT_SIZE;
         this.direction = Sort.Direction.DESC;
         this.sort = "createDate";

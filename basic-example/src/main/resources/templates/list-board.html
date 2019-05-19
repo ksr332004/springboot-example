@@ -29,16 +29,33 @@
                 </tr>
                 </tbody>
             </table>
-            <div th:if="${boards.pageable}">
+            <div>
+                <ul>
+                    <li><a th:href="@{/board/list/basic1}">JpaRepository(Pageable) 페이징 처리</a></li>
+                    <li><a th:href="@{/board/list/basic2}">JpaRepository(PageRequest) 페이징 처리</a></li>
+                    <li><a th:href="@{/board/list/querydsl}">Querydsl 페이징 처리</a></li>
+                </ul>
+            </div>
+            <div th:if="${getUri!='none'}">
                 <P th:inline="text">총 [[${boards.totalElements}]] 건</P>
-                <a th:if="${getUri} == 'basic1'"
-                   th:each="seq : ${#numbers.sequence(1, boards.totalPages)}"
-                   th:text="${seq}"
-                   th:href="@{/board/list/${getUri}(page=${seq}-1)}"> </a>
-                <a th:if="${getUri} != 'basic1'"
-                   th:each="seq : ${#numbers.sequence(1, boards.totalPages)}"
-                   th:text="${seq}"
-                   th:href="@{/board/list/${getUri}(page=${seq})}"> </a>
+                <span th:if="${getUri}=='basic1'">
+                    <a th:href="@{/board/list/{uri}(uri=${getUri}, page=0)}">[<<]</a>
+                    <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.number}-1)}">[<]</a>
+                    <span th:each="seq : ${#numbers.sequence(1, boards.totalPages)}">
+                        <a th:if="${getUri}!='basic1'" th:text="${seq}" th:href="@{/board/list/{uri}(uri=${getUri}, page=${seq})}"></a>
+                    </span>
+                    <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.number}+1)}">[>]</a>
+                    <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.totalPages}-1)}">[>>]</a>
+                </span>
+                <span th:if="${getUri}!='basic1'">
+                    <a th:href="@{/board/list/{uri}(uri=${getUri}, page=1)}">[<<]</a>
+                    <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.number})}">[<]</a>
+                    <span th:each="seq : ${#numbers.sequence(1, boards.totalPages)}">
+                        <a th:text="${seq}" th:href="@{/board/list/{uri}(uri=${getUri}, page=${seq})}"></a>
+                    </span>
+                    <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.number}+2)}">[>]</a>
+                    <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.totalPages})}">[>>]</a>
+                </span>
             </div>
         </div>
         <p><a href="/board/write">게시글 작성</a></p>

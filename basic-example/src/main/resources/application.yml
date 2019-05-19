@@ -5,6 +5,9 @@ spring:
     data-username: sa
     data-password:
     initialization-mode: always
+  h2:
+    console:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: none
@@ -12,6 +15,8 @@ spring:
     properties:
       hibernate:
         format-sql: true
-  h2:
-    console:
+  thymeleaf:
+    cache: false
+  devtools:
+    restart:
       enabled: true
