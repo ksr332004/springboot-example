@@ -1,20 +1,21 @@
 package com.example.basic.service.impl;
 
 import com.example.basic.domain.Board;
+import com.example.basic.exception.ResourceNotFoundException;
 import com.example.basic.repository.BoardRepository;
 import com.example.basic.service.BoardService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class BoardServiceImpl implements BoardService {
-    private final BoardRepository boardRepository;
 
-    public BoardServiceImpl(BoardRepository boardRepository) {
-        this.boardRepository = boardRepository;
-    }
+    private final BoardRepository boardRepository;
 
     @Override
     public Board saveBoard(Board board) {
@@ -38,22 +39,22 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Board updateBoard(Board board) {
-        Optional<Board> updateBoard = boardRepository.findById(board.getId());
-        if (updateBoard.isPresent()) {
-            updateBoard.get().setName(board.getName());
-            updateBoard.get().setTitle(board.getTitle());
-            updateBoard.get().setContent(board.getContent());
-            boardRepository.save(updateBoard.get());
-        }
-        return null;
+        return boardRepository.findById(board.getId()).map( existingBoard -> {
+                existingBoard.setName(board.getName());
+                existingBoard.setContent(board.getContent());
+                existingBoard.setTitle(board.getTitle());
+                return boardRepository.save(existingBoard);
+            }
+        ).orElse(new Board());
+        //.orElseThrow(() -> new ResourceNotFoundException("Board Id" + board.getId() + " does not exists!"));
     }
 
     @Override
-    public void deleteBoardById(Long id) {
-        Optional<Board> deleteBoard = boardRepository.findById(id);
-        if (deleteBoard.isPresent()) {
-            boardRepository.delete(deleteBoard.get());
-        }
-        return ;
+    public ResponseEntity deleteBoardById(Long id) {
+        return boardRepository.findById(id).map(existingBoard -> {
+            boardRepository.delete(existingBoard);
+            return ResponseEntity.ok().build();
+        }).orElseThrow(() -> new ResourceNotFoundException("Board Id" + id + " does not exists!"));
     }
+
 }

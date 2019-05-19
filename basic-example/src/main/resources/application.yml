@@ -4,9 +4,17 @@ spring:
     data-username: sa
     data-password:
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
   h2:
     console:
       enabled: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

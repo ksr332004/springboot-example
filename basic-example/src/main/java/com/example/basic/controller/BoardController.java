@@ -2,6 +2,7 @@ package com.example.basic.controller;
 
 import com.example.basic.domain.Board;
 import com.example.basic.service.BoardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,14 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping(value = "/board")
 public class BoardController {
-    private final BoardService boardService;
 
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
+    private final BoardService boardService;
 
     @GetMapping("/write")
     public String showWriteBoardForm(Board board) {

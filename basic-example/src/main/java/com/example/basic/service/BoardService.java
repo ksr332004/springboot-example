@@ -1,7 +1,7 @@
 package com.example.basic.service;
 
-
 import com.example.basic.domain.Board;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,5 +12,5 @@ public interface BoardService {
     Optional<Board> findBoardByTitle(String title);
     List<Board> findAll();
     Board updateBoard(Board board);
-    void deleteBoardById(Long id);
+    ResponseEntity deleteBoardById(Long id);
 }
