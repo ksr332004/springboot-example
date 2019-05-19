@@ -1,12 +1,17 @@
 package com.example.basic.controller;
 
 import com.example.basic.domain.Board;
+import com.example.basic.dto.PageRequest;
 import com.example.basic.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
@@ -33,7 +38,29 @@ public class BoardController {
 
     @GetMapping("/list")
     public String showListBoardForm(Model model) {
+        model.addAttribute("getUri", "none");
         model.addAttribute("boards", boardService.findAll());
+        return "list-board";
+    }
+
+    @GetMapping("/list/basic1")
+    public String showBasic1ListBoardForm(Pageable pageable, Model model) {
+        model.addAttribute("getUri", "basic1");
+        model.addAttribute("boards", boardService.basicPaginationFindAll(pageable));
+        return "list-board";
+    }
+
+    @GetMapping("/list/basic2")
+    public String showBasic2ListBoardForm(PageRequest pageRequest, Model model) {
+        model.addAttribute("getUri", "basic2");
+        model.addAttribute("boards", boardService.basicPaginationFindAll(pageRequest.of()));
+        return "list-board";
+    }
+
+    @GetMapping("/list/querydsl")
+    public String showQuerydalListBoardForm(PageRequest pageRequest, Model model) {
+        model.addAttribute("getUri", "querydsl");
+        model.addAttribute("boards", boardService.querydslPaginationFindAll(pageRequest.of()));
         return "list-board";
     }
 

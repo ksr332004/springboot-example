@@ -36,6 +36,37 @@ main
         └── write-board.html
 ~~~
 
+## Getting Started
+### Git Clone
+~~~bash
+# make directory
+mkdir {your_directory}
+cd {your_directory}
+
+git init
+
+git config core.sparseCheckout true
+
+git remote add -f origin https://github.com/ksr332004/springboot-example.git
+
+echo "basic-example/*">.git/info/sparse-checkout
+# echo "basic-example/*"| out-file -encoding ascii .git/info/sparse-checkout  # Windows OS
+
+git pull origin master
+~~~
+
+### Server Starter
+~~~bash
+cd {your_directory}\springboot-example\basic-example
+
+#build
+gradle build
+# gradlew build  # Windows OS
+
+#start
+gradle bootRun
+~~~
+
 ## Comment
 ### @Controller vs @RestController
 - @Controller는 @ResponseBody를 이용하여 객체를 JSON 형식으로 반환시킴
@@ -53,3 +84,8 @@ main
 /* 객체에 선언된 형식이 LocalDateTime일 경우 */
 <td th:text="${#temporals.format(object.date, 'yyyy-MM-dd')}"></td>
 ~~~
+
+### Add Static Imports in IntelliJ(Version 16)
+- IntelliJ에서 AssertJ 관련 함수에 대한 import를 자동으로 불러오지 못할 경우
+   > Settings → Editor → General → Auto Import
+   > Add unambiguous imports on the fly 체크
