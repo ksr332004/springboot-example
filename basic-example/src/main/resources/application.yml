@@ -9,9 +9,9 @@ spring:
     console:
       enabled: true
   jpa:
+    show-sql: false
     hibernate:
       ddl-auto: none
-    show-sql: true
     properties:
       hibernate:
         format-sql: true
@@ -20,3 +20,7 @@ spring:
   devtools:
     restart:
       enabled: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

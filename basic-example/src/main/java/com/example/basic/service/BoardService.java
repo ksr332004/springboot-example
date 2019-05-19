@@ -1,7 +1,7 @@
 package com.example.basic.service;
 
-
 import com.example.basic.domain.Board;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,5 +17,5 @@ public interface BoardService {
     Page<Board> querydslPaginationFindAll(Pageable pageable);
 
     Board updateBoard(Board board);
-    void deleteBoardById(Long id);
+    ResponseEntity deleteBoardById(Long id);
 }
