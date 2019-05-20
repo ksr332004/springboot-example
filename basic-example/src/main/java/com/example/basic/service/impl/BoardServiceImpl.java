@@ -2,9 +2,9 @@ package com.example.basic.service.impl;
 
 import com.example.basic.domain.Board;
 import com.example.basic.exception.ResourceNotFoundException;
-import com.example.basic.repository.jpa.JpaBasicPaginationBoardRepository;
+import com.example.basic.repository.BasicPaginationRepository;
 import com.example.basic.repository.BoardRepository;
-import com.example.basic.repository.querydsl.QuerydslBasicPaginationBoardRepository;
+import com.example.basic.repository.QuerydslPaginationRepository;
 import com.example.basic.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ import java.util.Optional;
 @Service
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
-    private final JpaBasicPaginationBoardRepository jpaBasicPaginationBoardRepository;
-    private final QuerydslBasicPaginationBoardRepository querydslBasicPaginationBoardRepository;
+    private final BasicPaginationRepository basicPaginationRepository;
+    private final QuerydslPaginationRepository querydslPaginationRepository;
 
     @Override
     public Board saveBoard(Board board) {
@@ -39,12 +39,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Page<Board> basicPaginationFindAll(Pageable pageable) {
-        return jpaBasicPaginationBoardRepository.findAll(pageable);
+        return basicPaginationRepository.findAll(pageable);
     }
 
     @Override
     public Page<Board> querydslPaginationFindAll(Pageable pageable) {
-        return querydslBasicPaginationBoardRepository.findAll(pageable);
+        return querydslPaginationRepository.findAll(pageable);
     }
 
     @Override
