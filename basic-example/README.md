@@ -10,31 +10,13 @@ Spring-Boot-Thymeleaf-Basic-Example
 - H2
 
 ## Structure
-~~~bash
-main
-├── java
-│   └── com
-│       └── example
-│           └── basic
-│               ├── BasicApplication.java
-│               ├── controller
-│               │   └── BoardController.java
-│               ├── domain
-│               │   └── Board.java
-│               ├── repository
-│               │   └── BoardRepository.java
-│               └── service
-│                   ├── BoardService.java
-│                   └── impl
-│                       └── BoardServiceImpl.java
-└── resources
-    ├── application.yml
-    ├── static
-    └── templates
-        ├── edit-board.html
-        ├── list-board.html
-        └── write-board.html
-~~~
+### 1. 게시글 조회/등록/수정/삭제
+- [github tags](https://github.com/ksr332004/springboot-example/releases/tag/basic-example-1)
+
+### 2. 게시판 Pagination
+> JpaRepository  
+> Querydsl  
+- [github tags](https://github.com/ksr332004/springboot-example/releases/tag/basic-example-2)
 
 ## Getting Started
 ### Git Clone

@@ -44,7 +44,7 @@
                     <a th:href="@{/board/list/{uri}(uri=${getUri}, page=0)}">[처음]</a>
                     <a th:href="${boards.first}? '#' : @{/board/list/{uri}(uri=${getUri}, page=${boards.number}-1)}">[<]</a>
                     <span th:each="seq : ${#numbers.sequence(firstNumber, lastNumber)}">
-                        <a th:text="${seq}" th:href="@{/board/list/{uri}(uri=${getUri}, page=${seq})}"></a>
+                        <a th:text="${seq}" th:href="@{/board/list/{uri}(uri=${getUri}, page=${seq}-1)}"></a>
                     </span>
                     <a th:href="${boards.last} ? '#' : @{/board/list/{uri}(uri=${getUri}, page=${boards.number}+1)}">[>]</a>
                     <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.totalPages}-1)}">[마지막]</a>

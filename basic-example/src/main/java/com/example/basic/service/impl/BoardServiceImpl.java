@@ -22,14 +22,6 @@ public class BoardServiceImpl implements BoardService {
     private final BasicPaginationRepository basicPaginationRepository;
     private final QuerydslPaginationRepository querydslPaginationRepository;
 
-    public BoardServiceImpl(BoardRepository boardRepository
-            , BasicPaginationRepository basicPaginationRepository
-            , QuerydslPaginationRepository querydslPaginationRepository) {
-        this.boardRepository = boardRepository;
-        this.basicPaginationRepository = basicPaginationRepository;
-        this.querydslPaginationRepository = querydslPaginationRepository;
-    }
-
     @Override
     public Board saveBoard(Board board) {
         return boardRepository.save(board);

@@ -19,7 +19,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping(value = "/board")
 public class BoardController {
-
     private final BoardService boardService;
 
     @GetMapping("/write")
