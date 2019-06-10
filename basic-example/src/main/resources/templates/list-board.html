@@ -31,8 +31,8 @@
             </table>
             <div>
                 <ul>
-                    <li><a th:href="@{/board/list/basic1}">JpaRepository(Pageable) 페이징 처리</a></li>
-                    <li><a th:href="@{/board/list/basic2}">JpaRepository(PageRequest) 페이징 처리</a></li>
+                    <li><a th:href="@{/board/list/jpa1}">JpaRepository(Pageable) 페이징 처리</a></li>
+                    <li><a th:href="@{/board/list/jpa2}">JpaRepository(PageRequest) 페이징 처리</a></li>
                     <li><a th:href="@{/board/list/querydsl}">Querydsl 페이징 처리</a></li>
                 </ul>
             </div>
@@ -40,7 +40,7 @@
                  th:with="firstNumber=${T(Math).floorDiv(boards.number,5)*5+1}
                          ,lastNumber=${(firstNumber+4 < boards.totalPages) ? firstNumber+4 : boards.totalPages}">
                 <P th:inline="text">총 [[${boards.totalElements}]] 건</P>
-                <span th:if="${getUri}=='basic1'">
+                <span th:if="${getUri}=='jpa1'">
                     <a th:href="@{/board/list/{uri}(uri=${getUri}, page=0)}">[처음]</a>
                     <a th:href="${boards.first}? '#' : @{/board/list/{uri}(uri=${getUri}, page=${boards.number}-1)}">[<]</a>
                     <span th:each="seq : ${#numbers.sequence(firstNumber, lastNumber)}">
@@ -49,7 +49,7 @@
                     <a th:href="${boards.last} ? '#' : @{/board/list/{uri}(uri=${getUri}, page=${boards.number}+1)}">[>]</a>
                     <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.totalPages}-1)}">[마지막]</a>
                 </span>
-                <span th:if="${getUri}!='basic1'">
+                <span th:if="${getUri}!='jpa1'">
                     <a th:href="@{/board/list/{uri}(uri=${getUri}, page=1)}">[처음]</a>
                     <a th:href="${boards.first} ? '#' : @{/board/list/{uri}(uri=${getUri}, page=${boards.number})}">[<]</a>
                     <span th:each="seq : ${#numbers.sequence(firstNumber, lastNumber)}">
@@ -58,6 +58,13 @@
                     <a th:href="${boards.last} ? '#' : @{/board/list/{uri}(uri=${getUri}, page=${boards.number}+2)}">[>]</a>
                     <a th:href="@{/board/list/{uri}(uri=${getUri}, page=${boards.totalPages})}">[마지막]</a>
                 </span>
+            </div>
+            <div>
+                <select th:field="*{target}">
+                    <option th:value="'name'" th:text="이름"></option>
+                    <option th:value="'title'" th:text="제목"></option>
+                    <option th:value="'content'" th:text="내용"></option>
+                </select>
             </div>
         </div>
         <p><a href="/board/write">게시글 작성</a></p>

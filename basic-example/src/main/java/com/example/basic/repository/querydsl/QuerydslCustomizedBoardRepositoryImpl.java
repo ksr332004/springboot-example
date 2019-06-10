@@ -1,6 +1,7 @@
 package com.example.basic.repository.querydsl;
 
 import com.example.basic.domain.Board;
+import com.example.basic.dto.BoardRequest;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -21,10 +22,12 @@ public class QuerydslCustomizedBoardRepositoryImpl extends QuerydslRepositorySup
     }
 
     @Override
-    public Page<Board> findByCriteria(String name, String title, String content, Pageable pageable) {
+    public Page<Board> findByCriteria(BoardRequest boardRequest, Pageable pageable) {
         QueryResults<Board> query = jpaQueryFactory
                 .selectFrom(board)
-                .where(likeName(name),)
+                .where(likeName(boardRequest.getName())
+                        , likeTitle(boardRequest.getTitle())
+                        , likeContent(boardRequest.getContent()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
