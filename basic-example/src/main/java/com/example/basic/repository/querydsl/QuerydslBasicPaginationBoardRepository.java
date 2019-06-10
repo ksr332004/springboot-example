@@ -1,4 +1,4 @@
-package com.example.basic.repository;
+package com.example.basic.repository.querydsl;
 
 import com.example.basic.domain.Board;
 import com.querydsl.core.QueryResults;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 import static com.example.basic.domain.QBoard.board;
 
 @Repository
-public class QuerydslPaginationRepository extends QuerydslRepositorySupport {
+public class QuerydslBasicPaginationBoardRepository extends QuerydslRepositorySupport {
     private final JPAQueryFactory jpaQueryFactory;
 
-    public QuerydslPaginationRepository(JPAQueryFactory jpaQueryFactory) {
+    public QuerydslBasicPaginationBoardRepository(JPAQueryFactory jpaQueryFactory) {
         super(Board.class);
         this.jpaQueryFactory = jpaQueryFactory;
     }
