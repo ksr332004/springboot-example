@@ -42,16 +42,16 @@ public class BoardController {
         return "list-board";
     }
 
-    @GetMapping("/list/basic1")
+    @GetMapping("/list/jpa1")
     public String showBasic1ListBoardForm(Pageable pageable, Model model) {
-        model.addAttribute("getUri", "basic1");
+        model.addAttribute("getUri", "jpa1");
         model.addAttribute("boards", boardService.basicPaginationFindAll(pageable));
         return "list-board";
     }
 
-    @GetMapping("/list/basic2")
+    @GetMapping("/list/jpa2")
     public String showBasic2ListBoardForm(PageRequest pageRequest, Model model) {
-        model.addAttribute("getUri", "basic2");
+        model.addAttribute("getUri", "jpa2");
         model.addAttribute("boards", boardService.basicPaginationFindAll(pageRequest.of()));
         return "list-board";
     }

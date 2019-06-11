@@ -33,7 +33,6 @@ public class BoardRepositoryTest {
         Optional<Board> foundBoard = boardRepository.findById(testBoard.getId());
 
         // then
-        assertThat(foundBoard.get().getName())
-                .isEqualTo(testBoard.getName());
+        assertThat(foundBoard.get().getName()).isEqualTo(testBoard.getName());
     }
 }
