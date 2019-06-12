@@ -1,6 +1,7 @@
 package com.example.basic.service;
 
 import com.example.basic.domain.Board;
+import com.example.basic.dto.BoardRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +14,9 @@ public interface BoardService {
 
     Optional<Board> findBoardById(Long id);
     List<Board> findAll();
-    Page<Board> basicPaginationFindAll(Pageable pageable);
-    Page<Board> querydslPaginationFindAll(Pageable pageable);
+    Page<Board> jpaBasicPaginationFindAll(Pageable pageable);
+    Page<Board> querydslBasicPaginationFindAll(Pageable pageable);
+    Page<Board> querydslCustomizedFindByCriteria(BoardRequest boardRequest, Pageable pageable);
 
     Board updateBoard(Board board);
     ResponseEntity deleteBoardById(Long id);

@@ -1,6 +1,7 @@
 package com.example.basic.controller;
 
 import com.example.basic.domain.Board;
+import com.example.basic.dto.BoardRequest;
 import com.example.basic.dto.PageRequest;
 import com.example.basic.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -37,29 +38,41 @@ public class BoardController {
 
     @GetMapping("/list")
     public String showListBoardForm(Model model) {
-        model.addAttribute("getUri", "none");
+        model.addAttribute("getMainUri", "none");
+        model.addAttribute("getSubUri", "none");
         model.addAttribute("boards", boardService.findAll());
         return "list-board";
     }
 
     @GetMapping("/list/jpa1")
     public String showBasic1ListBoardForm(Pageable pageable, Model model) {
-        model.addAttribute("getUri", "jpa1");
-        model.addAttribute("boards", boardService.basicPaginationFindAll(pageable));
+        model.addAttribute("getMainUri", "jpa1");
+        model.addAttribute("getSubUri", "none");
+        model.addAttribute("boards", boardService.jpaBasicPaginationFindAll(pageable));
         return "list-board";
     }
 
     @GetMapping("/list/jpa2")
     public String showBasic2ListBoardForm(PageRequest pageRequest, Model model) {
-        model.addAttribute("getUri", "jpa2");
-        model.addAttribute("boards", boardService.basicPaginationFindAll(pageRequest.of()));
+        model.addAttribute("getMainUri", "jpa2");
+        model.addAttribute("getSubUri", "none");
+        model.addAttribute("boards", boardService.jpaBasicPaginationFindAll(pageRequest.of()));
         return "list-board";
     }
 
     @GetMapping("/list/querydsl")
-    public String showQuerydalListBoardForm(PageRequest pageRequest, Model model) {
-        model.addAttribute("getUri", "querydsl");
-        model.addAttribute("boards", boardService.querydslPaginationFindAll(pageRequest.of()));
+    public String showQuerydslListBoardForm(PageRequest pageRequest, Model model) {
+        model.addAttribute("getMainUri", "querydsl");
+        model.addAttribute("getSubUri", "none");
+        model.addAttribute("boards", boardService.querydslBasicPaginationFindAll(pageRequest.of()));
+        return "list-board";
+    }
+
+    @GetMapping("/list/querydsl/search1")
+    public String showQuerydslSearchListBoardForm(BoardRequest boardRequest, PageRequest pageRequest, Model model) {
+        model.addAttribute("getMainUri", "querydsl");
+        model.addAttribute("getSubUri", "search1");
+        model.addAttribute("boards", boardService.querydslCustomizedFindByCriteria(boardRequest, pageRequest.of()));
         return "list-board";
     }
 
