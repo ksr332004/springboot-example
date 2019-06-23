@@ -15,8 +15,10 @@ public interface BoardService {
     Optional<Board> findBoardById(Long id);
     List<Board> findAll();
     Page<Board> jpaBasicPaginationFindAll(Pageable pageable);
+    Page<Board> jpaUsePredicateFindByCriteria(BoardRequest boardRequest, Pageable pageable);
     Page<Board> querydslBasicPaginationFindAll(Pageable pageable);
     Page<Board> querydslCustomizedFindByCriteria(BoardRequest boardRequest, Pageable pageable);
+    Page<Board> qureydslUsePredicateFindByCriteria(BoardRequest boardRequest, Pageable pageable);
 
     Board updateBoard(Board board);
     ResponseEntity deleteBoardById(Long id);

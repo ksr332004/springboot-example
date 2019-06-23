@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class QuerydslBoardRepository {
+public class QuerydslBoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
     @Autowired

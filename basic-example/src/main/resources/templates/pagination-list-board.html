@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>게시글 리스트</title>
+</head>
+<body>
+    <div th:switch="${boards}">
+        <h2 th:case="null">게시글이 없습니다.</h2>
+        <div th:case="*">
+            <h2>게시글</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>작성날짜</th>
+                    <th>수정</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${boards}">
+                    <td th:text="${board.name}"></td>
+                    <td th:text="${board.title}"></td>
+                    <td th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:MM')}"></td>
+                    <td><a th:href="@{/board/edit/{id}(id=${board.id})}">수정</a></td>
+                    <td><a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <ul>
+                    <li><a th:href="@{/board/list}">기본 리스트</a></li>
+                    <li><a th:href="@{/board/list/jpa1}">Jpa(Pageable) 페이징처리</a></li>
+                    <li><a th:href="@{/board/list/jpa2}">Jpa(PageRequest) 페이징처리</a></li>
+                    <li><a th:href="@{/board/list/querydsl}">Querydsl 페이징처리</a></li>
+                    <li><a th:href="@{/board/list/jpa/search}">Jpa 페이징처리와 검색</a></li>
+                    <li><a th:href="@{/board/list/querydsl/search1}">Querydsl Predicate 페이징처리와 검색</a></li>
+                    <li><a th:href="@{/board/list/querydsl/search2}">Querydsl Customized 페이징처리와 검색</a></li>
+                </ul>
+            </div>
+            <div th:with="firstNumber=${T(Math).floorDiv(boards.number,5)*5+1}
+                         ,lastNumber=${(firstNumber+4 < boards.totalPages) ? firstNumber+4 : boards.totalPages}">
+                <P th:inline="text">총 [[${boards.totalElements}]] 건</P>
+                <span th:if="${getMainUri}=='jpa1'">
+                    <a th:href="@{__${#httpServletRequest.requestURI}__(page=0)}">[처음]</a>
+                    <a th:href="${boards.first}? '#' : @{__${#httpServletRequest.requestURI}__(page=${boards.number}-1)}">[<]</a>
+                    <span th:each="seq : ${#numbers.sequence(firstNumber, lastNumber)}">
+                        <a th:text="${seq}" th:href="@{__${#httpServletRequest.requestURI}__(page=${seq}-1)}"></a>
+                    </span>
+                    <a th:href="${boards.last} ? '#' : @{__${#httpServletRequest.requestURI}__(page=${boards.number}+1)}">[>]</a>
+                    <a th:href="@{__${#httpServletRequest.requestURI}__(page=${boards.totalPages}-1)}">[마지막]</a>
+                </span>
+                <span th:if="${getMainUri}!='jpa1'">
+                    <a th:href="@{__${#httpServletRequest.requestURI}__(page=1)}">[처음]</a>
+                    <a th:href="${boards.first} ? '#' : @{__${#httpServletRequest.requestURI}__(page=${boards.number})}">[<]</a>
+                    <span th:each="seq : ${#numbers.sequence(firstNumber, lastNumber)}">
+                        <a th:text="${seq}" th:href="@{__${#httpServletRequest.requestURI}__(page=${seq})}"></a>
+                    </span>
+                    <a th:href="${boards.last} ? '#' : @{__${#httpServletRequest.requestURI}__(page=${boards.number}+2)}">[>]</a>
+                    <a th:href="@{__${#httpServletRequest.requestURI}__(page=${boards.totalPages})}">[마지막]</a>
+                </span>
+            </div>
+        </div>
+        <p><a href="/board/write">게시글 작성</a></p>
+    </div>
+</body>
+</html>

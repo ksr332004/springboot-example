@@ -5,8 +5,12 @@ import com.example.basic.dto.BoardRequest;
 import com.example.basic.exception.ResourceNotFoundException;
 import com.example.basic.repository.BoardRepository;
 import com.example.basic.repository.jpa.JpaBasicPaginationBoardRepository;
+import com.example.basic.repository.jpa.JpaUseSpecificationBoardRepository;
+import com.example.basic.repository.jpa.JpaUseSpecificationBoardSpecification;
 import com.example.basic.repository.querydsl.QuerydslBasicPaginationBoardRepository;
 import com.example.basic.repository.querydsl.QuerydslCustomizedBoardRepository;
+import com.example.basic.repository.querydsl.QuerydslUsePredicateBoardPredicate;
+import com.example.basic.repository.querydsl.QuerydslUsePredicateBoardRepository;
 import com.example.basic.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,8 +26,10 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
     private final JpaBasicPaginationBoardRepository jpaBasicPaginationBoardRepository;
+    private final JpaUseSpecificationBoardRepository jpaUseSpecificationBoardRepository;
     private final QuerydslBasicPaginationBoardRepository querydslBasicPaginationBoardRepository;
     private final QuerydslCustomizedBoardRepository querydslCustomizedBoardRepository;
+    private final QuerydslUsePredicateBoardRepository querydslUsePredicateBoardRepository;
 
     @Override
     public Board saveBoard(Board board) {
@@ -46,6 +52,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public Page<Board> jpaUsePredicateFindByCriteria(BoardRequest boardRequest, Pageable pageable) {
+        return jpaUseSpecificationBoardRepository.findAll(JpaUseSpecificationBoardSpecification.search(boardRequest), pageable);
+    }
+
+    @Override
     public Page<Board> querydslBasicPaginationFindAll(Pageable pageable) {
         return querydslBasicPaginationBoardRepository.findAll(pageable);
     }
@@ -56,6 +67,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public Page<Board> qureydslUsePredicateFindByCriteria(BoardRequest boardRequest, Pageable pageable) {
+        return querydslUsePredicateBoardRepository.findAll(QuerydslUsePredicateBoardPredicate.search(boardRequest), pageable);
+    }
+
+    @Override
     public Board updateBoard(Board board) {
         return boardRepository.findById(board.getId()).map( existingBoard -> {
                     existingBoard.setName(board.getName());
@@ -63,8 +79,7 @@ public class BoardServiceImpl implements BoardService {
                     existingBoard.setTitle(board.getTitle());
                     return boardRepository.save(existingBoard);
                 }
-        ).orElse(new Board());
-        //.orElseThrow(() -> new ResourceNotFoundException("Board Id" + board.getId() + " does not exists!"));
+        ).orElseThrow(() -> new ResourceNotFoundException("Board Id" + board.getId() + " does not exists!"));
     }
 
     @Override

@@ -35,35 +35,27 @@
                     <li><a th:href="@{/board/list/jpa1}">Jpa(Pageable) 페이징처리</a></li>
                     <li><a th:href="@{/board/list/jpa2}">Jpa(PageRequest) 페이징처리</a></li>
                     <li><a th:href="@{/board/list/querydsl}">Querydsl 페이징처리</a></li>
-                    <li><a th:href="@{/board/list/querydsl/search1}">Querydsl 페이징처리와 검색</a></li>
+                    <li><a th:href="@{/board/list/jpa/search}">Jpa 페이징처리와 검색</a></li>
+                    <li><a th:href="@{/board/list/querydsl/search1}">Querydsl Predicate 페이징처리와 검색</a></li>
+                    <li><a th:href="@{/board/list/querydsl/search2}">Querydsl Customized 페이징처리와 검색</a></li>
                 </ul>
             </div>
-            <div th:if="${getMainUri!='none'}"
-                 th:with="firstNumber=${T(Math).floorDiv(boards.number,5)*5+1}
+            <div th:with="firstNumber=${T(Math).floorDiv(boards.number,5)*5+1}
                          ,lastNumber=${(firstNumber+4 < boards.totalPages) ? firstNumber+4 : boards.totalPages}">
                 <P th:inline="text">총 [[${boards.totalElements}]] 건</P>
-                <span th:if="${getMainUri}=='jpa1'">
-                    <a th:href="@{/board/list/{uri}(uri=${getMainUri}, page=0)}">[처음]</a>
-                    <a th:href="${boards.first}? '#' : @{/board/list/{uri}(uri=${getMainUri}, page=${boards.number}-1)}">[<]</a>
+                <span>
+                    <a th:href="@{__${#httpServletRequest.requestURI}____${getParamsUri}__(page=1)}">[처음]</a>
+                    <a th:href="${boards.first} ? '#' : @{__${#httpServletRequest.requestURI}____${getParamsUri}__(page=${boards.number})}">[<]</a>
                     <span th:each="seq : ${#numbers.sequence(firstNumber, lastNumber)}">
-                        <a th:text="${seq}" th:href="@{/board/list/{uri}(uri=${getMainUri}, page=${seq}-1)}"></a>
+                        <a th:text="${seq}" th:href="@{__${#httpServletRequest.requestURI}____${getParamsUri}__(page=${seq})}"></a>
                     </span>
-                    <a th:href="${boards.last} ? '#' : @{/board/list/{uri}(uri=${getMainUri}, page=${boards.number}+1)}">[>]</a>
-                    <a th:href="@{/board/list/{uri}(uri=${getMainUri}, page=${boards.totalPages}-1)}">[마지막]</a>
-                </span>
-                <span th:if="${getMainUri}!='jpa1'">
-                    <a th:href="@{/board/list/{uri}(uri=${getMainUri}, page=1)}">[처음]</a>
-                    <a th:href="${boards.first} ? '#' : @{/board/list/{uri}(uri=${getMainUri}, page=${boards.number})}">[<]</a>
-                    <span th:each="seq : ${#numbers.sequence(firstNumber, lastNumber)}">
-                        <a th:text="${seq}" th:href="@{/board/list/{uri}(uri=${getMainUri}, page=${seq})}"></a>
-                    </span>
-                    <a th:href="${boards.last} ? '#' : @{/board/list/{uri}(uri=${getMainUri}, page=${boards.number}+2)}">[>]</a>
-                    <a th:href="@{/board/list/{uri}(uri=${getMainUri}, page=${boards.totalPages})}">[마지막]</a>
+                    <a th:href="${boards.last} ? '#' : @{__${#httpServletRequest.requestURI}____${getParamsUri}__(page=${boards.number}+2)}">[>]</a>
+                    <a th:href="@{__${#httpServletRequest.requestURI}____${getParamsUri}__(page=${boards.totalPages})}">[마지막]</a>
                 </span>
             </div>
-            <div th:if="${getSubUri!='none'}">
+            <div>
                 <span>
-                    <form id="searchParams" action="#" method="get">
+                    <form id="searchParams" th:action="@{__${#httpServletRequest.requestURI}__}" method="get">
                         <input type="hidden" id="name" name="name" value="">
                         <input type="hidden" id="title" name="title" value="">
                         <input type="hidden" id="content" name="content" value="">
@@ -73,7 +65,7 @@
                         <option th:value="'title'" th:text="제목"></option>
                         <option th:value="'content'" th:text="내용"></option>
                     </select>
-                    <input type="text" id="query">
+                    <input type="text" id="keyword">
                     <input type="button" th:onclick="'search()'" value="검색">
                 </span>
             </div>
@@ -84,22 +76,17 @@
 <script>
     function search() {
         var targets = Array.from(document.getElementById('target').selectedOptions).map(option => option.value);
-        var query = document.getElementById('query').value;
+        var keyword = document.getElementById('keyword').value;
 
-        console.log(query);
-
-        if (query === '') {
+        if (keyword === '') {
             alert('검색어를 입력해주세요.');
             return;
         }
 
         for (var i in targets) {
-            document.getElementById(targets[i]).value = query;
+            document.getElementById(targets[i]).value = keyword;
         }
 
-        var a = [[${getMainUri}]];
-        var b = [[${getSubUri}]];
-        document.getElementById('searchParams').action = '/board/list/' + a + '/' + b;
         document.getElementById('searchParams').submit();
     }
 </script>
