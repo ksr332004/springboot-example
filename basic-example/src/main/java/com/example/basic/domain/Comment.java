@@ -7,8 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -16,29 +14,22 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Board implements Serializable {
+public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @NotBlank(message = "이름을 입력하세요.")
-    private String name;
+    @JoinColumn(name = "board_id", nullable = false)
+    private Board board;
 
-    @NotBlank(message = "제목을 입력하세요.")
-    private String title;
+    @NotBlank(message = "작성자를 입력하세요.")
+    private String author;
 
     @NotBlank(message = "내용을 입력하세요.")
     private String content;
 
     @CreationTimestamp
     private LocalDateTime createDate;
-
-    @OneToMany(mappedBy = "board")
-    private List<Comment> comments = new ArrayList<>();
-
-    public void addComments(Comment comment) {
-        this.comments.add(comment);
-    }
 }

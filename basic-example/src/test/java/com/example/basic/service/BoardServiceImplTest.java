@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -26,12 +24,12 @@ public class BoardServiceImplTest {
     @Test
     public void whenSaveBoard_thenBoardIsCreated() {
         // given
-        Board testBoard = new Board(1L, "이름", "제목", "내용", LocalDateTime.now());
+        Board board = Board.builder().name("이름").title("제목").content("내용").build();
 
         // when
-        BoardServiceImpl.saveBoard(testBoard);
+        BoardServiceImpl.saveBoard(board);
 
         // then
-        verify(boardRepository, times(1)).save(testBoard);
+        verify(boardRepository, times(1)).save(board);
     }
 }

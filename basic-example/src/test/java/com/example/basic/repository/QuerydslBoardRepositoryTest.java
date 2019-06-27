@@ -8,17 +8,16 @@ import com.example.basic.repository.querydsl.QuerydslCustomizedBoardRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 public class QuerydslBoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
@@ -32,9 +31,9 @@ public class QuerydslBoardRepositoryTest {
         // given
         BoardRequest boardRequest = new BoardRequest("이름2", "", "");
         boardRepository.saveAll(Arrays.asList(
-                new Board(1L, "이름1", "제목1", "내용1", LocalDateTime.now()),
-                new Board(2L, "이름1", "제목2", "내용2", LocalDateTime.now()),
-                new Board(3L, "이름2", "제목3", "내용2", LocalDateTime.now())
+                Board.builder().name("이름1").title("제목1").content("내용1").build(),
+                Board.builder().name("이름1").title("제목2").content("내용2").build(),
+                Board.builder().name("이름2").title("제목3").content("내용2").build()
         ));
         PageRequest pageRequest = new PageRequest();
 
@@ -42,17 +41,17 @@ public class QuerydslBoardRepositoryTest {
         Page<Board> boards = querydslCustomizedBoardRepository.findByCriteria(boardRequest, pageRequest.of());
 
         // then
-        assertThat(boards.getSize()).isEqualTo(1);
-        assertThat(boards.getContent().get(0).getName()).isEqualTo("이름1");
+        assertThat(boards.getTotalElements()).isEqualTo(1L);
+        assertThat(boards.getContent().get(0).getName()).isEqualTo("이름2");
     }
 
     @Test
     public void whenFindAllPagination_thenReturnBoard() {
         // given
         boardRepository.saveAll(Arrays.asList(
-                new Board(1L, "이름1", "제목1", "내용1", LocalDateTime.now()),
-                new Board(2L, "이름1", "제목2", "내용2", LocalDateTime.now()),
-                new Board(3L, "이름2", "제목3", "내용2", LocalDateTime.now())
+                Board.builder().name("이름1").title("제목1").content("내용1").build(),
+                Board.builder().name("이름1").title("제목2").content("내용2").build(),
+                Board.builder().name("이름2").title("제목3").content("내용2").build()
         ));
         PageRequest pageRequest = new PageRequest();
 
@@ -60,7 +59,7 @@ public class QuerydslBoardRepositoryTest {
         Page<Board> boards = querydslBasicPaginationBoardRepository.findAll(pageRequest.of());
 
         // then
-        assertThat(boards.getSize()).isEqualTo(3);
+        assertThat(boards.getTotalElements()).isEqualTo(3);
         assertThat(boards.getTotalPages()).isEqualTo(1);
     }
 }
