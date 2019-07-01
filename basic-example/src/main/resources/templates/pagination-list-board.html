@@ -6,9 +6,9 @@
 </head>
 <body>
     <div th:switch="${boards}">
+        <h2>게시글</h2>
         <h2 th:case="null">게시글이 없습니다.</h2>
         <div th:case="*">
-            <h2>게시글</h2>
             <table>
                 <thead>
                 <tr>
@@ -65,7 +65,7 @@
                 </span>
             </div>
         </div>
-        <p><a href="/board/write">게시글 작성</a></p>
+        <p><a th:href="@{/board/write}">게시글 작성</a></p>
     </div>
 </body>
 </html>

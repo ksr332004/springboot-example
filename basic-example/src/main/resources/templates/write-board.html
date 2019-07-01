@@ -5,6 +5,8 @@
     <title>게시글 작성</title>
 </head>
 <body>
+    <p><a th:href="@{/main}">메인으로 이동</a></p>
+    <h3>게시글 작성</h3>
     <form action="#" th:action="@{/board/write/add}" th:object="${board}" method="post">
         <div>
             <label for="name">작성자</label>
@@ -18,7 +20,7 @@
         </div>
         <div>
             <label for="content">내용</label>
-            <textarea type="text" th:field="*{content}" id="content" placeholder="Content"/>
+            <textarea type="text" th:field="*{content}" id="content" placeholder="Content"></textarea>
             <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
         </div>
         <input type="submit" value="저장">

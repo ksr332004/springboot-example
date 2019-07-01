@@ -35,7 +35,7 @@ public class Board implements Serializable {
     @CreationTimestamp
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
     public void addComments(Comment comment) {

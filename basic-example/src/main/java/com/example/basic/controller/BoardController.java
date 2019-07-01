@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -91,12 +89,8 @@ public class BoardController {
     @GetMapping("/view/{id}")
     public String showViewBoardForm(@PathVariable("id") Long id, Comment comment, Model model) {
         Optional<Board> board = boardService.findBoardById(id);
-        List<Comment> comments = new ArrayList<>();
-        if (board.isPresent()) {
-            comments = board.get().getComments();
-        }
         model.addAttribute("board", board);
-        model.addAttribute("comments", comments);
+        board.map( b -> model.addAttribute("comments", b.getComments().size() > 0 ? b.getComments() : null));
         return "view-board";
     }
 
@@ -117,7 +111,7 @@ public class BoardController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteBoardById(@PathVariable("id") Long id) {
+    public String deleteBoard(@PathVariable("id") Long id) {
         boardService.deleteBoardById(id);
         return "redirect:/board/list";
     }

@@ -33,4 +33,12 @@ public class Comment implements Serializable {
 
     @CreationTimestamp
     private LocalDateTime createDate;
+
+    public void setBoard(Board board) {
+        if (this.board != null) {
+            this.board.getComments().remove(this);
+        }
+        this.board = board;
+        this.board.addComments(this);
+    }
 }

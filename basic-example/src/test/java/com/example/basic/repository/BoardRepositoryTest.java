@@ -50,9 +50,6 @@ public class BoardRepositoryTest {
 
         boardRepository.save(board1);
 
-        board1.addComments(comment1);
-        board1.addComments(comment2);
-
         comment1.setBoard(board1);
         comment2.setBoard(board1);
 
