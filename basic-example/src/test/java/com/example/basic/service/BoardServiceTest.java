@@ -2,7 +2,6 @@ package com.example.basic.service;
 
 import com.example.basic.domain.Board;
 import com.example.basic.repository.BoardRepository;
-import com.example.basic.service.impl.BoardServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BoardServiceImpl.class)
-public class BoardServiceImplTest {
+@SpringBootTest(classes = BoardService.class)
+public class BoardServiceTest {
     @MockBean
     private BoardRepository boardRepository;
     @Autowired
-    private BoardServiceImpl BoardServiceImpl;
+    private BoardService boardService;
 
     @Test
     public void whenSaveBoard_thenBoardIsCreated() {
@@ -27,7 +26,7 @@ public class BoardServiceImplTest {
         Board board = Board.builder().name("이름").title("제목").content("내용").build();
 
         // when
-        BoardServiceImpl.saveBoard(board);
+        boardService.saveBoard(board);
 
         // then
         verify(boardRepository, times(1)).save(board);

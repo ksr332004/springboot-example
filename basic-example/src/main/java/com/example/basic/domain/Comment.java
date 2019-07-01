@@ -21,6 +21,7 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @ManyToOne
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>게시글 상세보기</title>
+</head>
+<body>
+    <div th:switch="${board}">
+        <h2 th:case="null">게시글이 없습니다.</h2>
+        <div th:case="*">
+            <div>
+                <h3>게시글 본문</h3>
+                <div th:object="${board}">
+                    <input th:field="*{id}" id="id" hidden>
+                    <div>
+                        <label for="name">작성자</label>
+                        <input th:field="*{name}" id="name" readonly>
+                    </div>
+                    <div>
+                        <label for="title">제목</label>
+                        <input th:field="*{title}" id="title" readonly>
+                    </div>
+                    <div>
+                        <label for="content">내용</label>
+                        <textarea th:field="*{content}" id="content" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>댓글 작성</h3>
+                <form action="#" th:action="@{/comment/write/add}" th:object="${comment}" method="post">
+                    <input type="text" th:value="${board.get().getId()}" id="board.id" name="board.id"/>
+                    <div>
+                        <label for="author">작성자</label>
+                        <input type="text" th:field="*{author}" id="author" placeholder="author">
+                        <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
+                    </div>
+                    <div>
+                        <label for="content">내용</label>
+                        <textarea type="text" th:field="*{content}" id="content" placeholder="Content"></textarea>
+                        <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+                    </div>
+                    <input type="submit" value="등록">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

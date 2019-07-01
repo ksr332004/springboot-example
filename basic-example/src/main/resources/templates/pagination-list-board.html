@@ -15,6 +15,7 @@
                     <th>작성자</th>
                     <th>제목</th>
                     <th>작성날짜</th>
+                    <th>자세히보기</th>
                     <th>수정</th>
                     <th>삭제</th>
                 </tr>
@@ -24,6 +25,7 @@
                     <td th:text="${board.name}"></td>
                     <td th:text="${board.title}"></td>
                     <td th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:MM')}"></td>
+                    <td><a th:href="@{/board/view/{id}(id=${board.id})}">보기</a></td>
                     <td><a th:href="@{/board/edit/{id}(id=${board.id})}">수정</a></td>
                     <td><a th:href="@{/board/delete/{id}(id=${board.id})}">삭제</a></td>
                 </tr>

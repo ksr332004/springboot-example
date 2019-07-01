@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class BoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
@@ -24,6 +26,7 @@ public class BoardRepositoryTest {
     private CommentRepository commentRepository;
 
     @Test
+    @Rollback
     public void whenFindById_thenReturnBoard() {
         // given
         Board board = Board.builder().name("이름").title("제목").content("내용").build();
@@ -38,7 +41,7 @@ public class BoardRepositoryTest {
     }
 
     @Test
-    @Transactional
+    @Rollback
     public void whenFindByBoardId_thenReturnComment() {
         // given
         Board board1 = Board.builder().name("이름").title("제목").content("내용").comments(new ArrayList<>()).build();

@@ -10,7 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -18,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class QuerydslBoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
@@ -27,6 +30,7 @@ public class QuerydslBoardRepositoryTest {
     private QuerydslBasicPaginationBoardRepository querydslBasicPaginationBoardRepository;
 
     @Test
+    @Rollback
     public void whenFindByCriteria_thenReturnBoard() {
         // given
         BoardRequest boardRequest = new BoardRequest("이름2", "", "");
@@ -46,6 +50,7 @@ public class QuerydslBoardRepositoryTest {
     }
 
     @Test
+    @Rollback
     public void whenFindAllPagination_thenReturnBoard() {
         // given
         boardRepository.saveAll(Arrays.asList(

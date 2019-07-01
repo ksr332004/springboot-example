@@ -74,12 +74,13 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board updateBoard(Board board) {
         return boardRepository.findById(board.getId()).map( existingBoard -> {
-                    existingBoard.setName(board.getName());
-                    existingBoard.setContent(board.getContent());
-                    existingBoard.setTitle(board.getTitle());
-                    return boardRepository.save(existingBoard);
-                }
-        ).orElseThrow(() -> new ResourceNotFoundException("Board Id" + board.getId() + " does not exists!"));
+            existingBoard.builder()
+                    .name(board.getName())
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .build();
+            return boardRepository.save(existingBoard);
+        }).orElseThrow(() -> new ResourceNotFoundException("Board Id" + board.getId() + " does not exists!"));
     }
 
     @Override

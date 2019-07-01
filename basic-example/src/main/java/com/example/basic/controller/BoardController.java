@@ -1,6 +1,7 @@
 package com.example.basic.controller;
 
 import com.example.basic.domain.Board;
+import com.example.basic.domain.Comment;
 import com.example.basic.dto.BoardRequest;
 import com.example.basic.dto.PageRequest;
 import com.example.basic.service.BoardService;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -82,6 +86,18 @@ public class BoardController {
         model.addAttribute("getParamsUri", boardRequest.getUri());
         model.addAttribute("boards", boardService.querydslCustomizedFindByCriteria(boardRequest, pageRequest.of()));
         return "search-list-board";
+    }
+
+    @GetMapping("/view/{id}")
+    public String showViewBoardForm(@PathVariable("id") Long id, Comment comment, Model model) {
+        Optional<Board> board = boardService.findBoardById(id);
+        List<Comment> comments = new ArrayList<>();
+        if (board.isPresent()) {
+            comments = board.get().getComments();
+        }
+        model.addAttribute("board", board);
+        model.addAttribute("comments", comments);
+        return "view-board";
     }
 
     @GetMapping("/edit/{id}")
