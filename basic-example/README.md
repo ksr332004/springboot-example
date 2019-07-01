@@ -14,9 +14,20 @@ Spring-Boot-Thymeleaf-Basic-Example
 - [github tags](https://github.com/ksr332004/springboot-example/releases/tag/basic-example-1)
 
 ### 2. 게시판 Pagination
-> JpaRepository  
-> Querydsl  
+- JpaRepository 이용  
+- Querydsl 이용  
 - [github tags](https://github.com/ksr332004/springboot-example/releases/tag/basic-example-2)
+
+### 3. 검색 조건에 따른 게시글 조회(동적쿼리)
+- JpaRepository 이용  
+   - Specification 형식  
+- Querydsl 이용  
+   - Predicate 형식  
+   - Custom 형식
+- [github tags](https://github.com/ksr332004/springboot-example/releases/tag/basic-example-3)
+
+### 4. 게시글에 따른 댓글 구현
+- @OneToMany 양방향 바인딩 이용   
 
 ## Getting Started
 ### Git Clone
