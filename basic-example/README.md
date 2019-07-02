@@ -1,12 +1,13 @@
-Spring-Boot-Thymeleaf-Basic-Example
+Spring-Boot-Basic-Example
 ===================================
-> Spring Boot와 Thymeleaf를 이용한 간단한 게시판 예제
+> Spring Boot, JPA, Thymeleaf를 이용한 간단한 게시판 예제
 
 ### Prerequisites
 - JDK 1.8
-- Spring Boot
+- Spring Boot 2.x
 - Thymeleaf
 - JPA
+- Gradle
 - H2
 
 ## Structure
@@ -28,6 +29,7 @@ Spring-Boot-Thymeleaf-Basic-Example
 
 ### 4. 게시글에 따른 댓글 구현
 - @OneToMany 양방향 바인딩 이용   
+- 생성/조회/삭제 기능 구현   
 
 ## Getting Started
 ### Git Clone
