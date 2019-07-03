@@ -1,6 +1,6 @@
-Spring-Boot-Basic-Example
+Basic-Example Project
 ===================================
-> Spring Boot, JPA, Thymeleaf를 이용한 간단한 게시판 예제
+> Spring Boot와 JPA 기본 개념 정리를 위한 프로젝트 
 
 ### Prerequisites
 - JDK 1.8
@@ -19,7 +19,7 @@ Spring-Boot-Basic-Example
 - Querydsl 이용  
 - [github tags](https://github.com/ksr332004/springboot-example/releases/tag/basic-example-2)
 
-### 3. 검색 조건에 따른 게시글 조회(동적쿼리)
+### 3. 검색 조건에 따른 게시글 검색(동적쿼리)
 - JpaRepository 이용  
    - Specification 형식  
 - Querydsl 이용  
