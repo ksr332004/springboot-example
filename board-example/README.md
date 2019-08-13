@@ -5,11 +5,9 @@ Board-Example Project
 ### Prerequisites
 - JDK 1.8
 - Spring Boot 2.x
-   - Spring Security
-   - Spring Rest Docs
 - Vue.js 2
 - JPA
-- Gradle
+- Maven
 - H2
 
 
@@ -45,11 +43,10 @@ git pull origin master
 cd {your_directory}\springboot-example\board-example
 
 #build
-gradle build
-# gradlew build  # Windows OS
+
 
 #start
-gradle bootRun
+
 ~~~
 
 ### Client Starter

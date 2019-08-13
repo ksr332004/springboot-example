@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    sql-script-encoding: UTF-8
+    initialization-mode: always
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:~/project
+      username: sa
+      password:
+  h2:
+    console:
+      enabled: true
+      path: /h2_console
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format-sql: false
+    open-in-view: false
