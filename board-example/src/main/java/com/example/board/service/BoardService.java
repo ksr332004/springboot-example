@@ -7,8 +7,8 @@ import com.example.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +20,24 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public void insertBoard(Board board) {
-        boardRepository.save(board);
+    public Board selectBoard(Long id) {
+        return boardRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.BOARD_NOT_EXIST));
     }
 
+    public Board insertBoard(Board board) {
+        return boardRepository.save(board);
+    }
+
+    @Transactional
     public Board updateBoard(Board board) {
-        Optional<Board> b = boardRepository.findById(board.getId());
-        return b.map( x -> {
-            x.setTitle(board.getTitle());
-            x.setContent(board.getContent());
-            return boardRepository.save(x);
-        }).orElseThrow(() -> new BusinessException(ErrorCode.BOARD_NOT_EXIST));
+        return boardRepository.findById(board.getId())
+                .map(b -> {
+                    b.setTitle(board.getTitle());
+                    b.setContent(board.getContent());
+                    return boardRepository.save(b);
+                })
+                .orElseThrow(() -> new BusinessException(ErrorCode.BOARD_NOT_EXIST));
     }
 
     public void deleteBoard(Long id) {
