@@ -35,7 +35,10 @@ public class CommentService {
 
     public void deleteComment(Long boardId, Long commentId) {
         boardRepository.findById(boardId)
-                .map(b -> b.getComments().removeIf(c -> commentId.equals(c.getId())))
+                .map(b -> {
+                    b.getComments().removeIf(c -> commentId.equals(c.getId()));
+                    return boardRepository.save(b);
+                })
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOARD_NOT_EXIST));
     }
 
