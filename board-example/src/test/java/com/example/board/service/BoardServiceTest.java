@@ -1,5 +1,6 @@
 package com.example.board.service;
 
+import com.example.board.dto.BoardDTO;
 import com.example.board.entity.Board;
 import com.example.board.repository.BoardRepository;
 import org.junit.Test;
@@ -19,16 +20,23 @@ public class BoardServiceTest {
     BoardService boardService;
 
     @Test
-    public void 게시글_수정_테스트() throws Exception {
+    public void 게시글_수정_테스트() {
+        String beforeTitle = "제목1";
+        String beforeContent = "내용1";
+        String afterTitle = "제목2";
+
         // given
-        Board board = boardRepository.save(Board.builder().title("제목1").content("내용1").build());
+        Board board = boardRepository.save(Board.builder().title(beforeTitle).content(beforeContent).build());
 
         // when
-        board.setTitle("제목2");
-        Board updatedBoard = boardService.updateBoard(board);
+        BoardDTO.RequestToUpdate boardDTO = new BoardDTO.RequestToUpdate();
+        boardDTO.setId(board.getId());
+        boardDTO.setTitle(afterTitle);
+        boardDTO.setContent(beforeContent);
+        Board updatedBoard = boardService.updateBoard(boardDTO);
 
         // then
-        assertThat(updatedBoard.getTitle()).isEqualTo("제목2");
+        assertThat(updatedBoard.getTitle()).isEqualTo(afterTitle);
     }
 
 }

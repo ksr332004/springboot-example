@@ -1,6 +1,6 @@
 package com.example.board.controller;
 
-import com.example.board.dto.BoardRequest;
+import com.example.board.dto.BoardDTO;
 import com.example.board.entity.Board;
 import com.example.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -18,37 +18,31 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boards")
-    public ResponseEntity<List<Board>> getBoardList() {
+    public ResponseEntity<List<BoardDTO.ResponseToList>> getBoardList() {
         return ResponseEntity.status(HttpStatus.OK).body(boardService.selectBoardList());
     }
 
     @GetMapping("/board/{id}")
-    public ResponseEntity<Board> getBoard(@PathVariable Long id) {
+    public ResponseEntity<BoardDTO.ResponseToDetail> getBoard(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(boardService.selectBoard(id));
     }
 
     @PostMapping("/board")
-    public ResponseEntity<Board> addBoard(@Valid @RequestBody BoardRequest boardRequest) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(
-                        boardService.insertBoard(
-                                Board.builder()
-                                        .title(boardRequest.getTitle())
-                                        .content(boardRequest.getContent())
-                                        .build()
-                        )
-                );
+    public ResponseEntity<BoardDTO.ResponseToDetail> addBoard(@Valid @RequestBody BoardDTO.RequestToCreate boardDTO) {
+        Board board = boardService.insertBoard(boardDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.selectBoard(board.getId()));
     }
 
     @PutMapping("/board")
-    public ResponseEntity<Board> updateBoard(@RequestBody Board board) {
-        return ResponseEntity.status(HttpStatus.OK).body(boardService.updateBoard(board));
+    public ResponseEntity<BoardDTO.ResponseToDetail> updateBoard(@RequestBody BoardDTO.RequestToUpdate boardDTO) {
+        Board board = boardService.updateBoard(boardDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.selectBoard(board.getId()));
     }
 
     @DeleteMapping("/board/{id}")
-    public ResponseEntity<String> deleteBoard(@PathVariable Long id) {
+    public ResponseEntity<List<BoardDTO.ResponseToList>> deleteBoard(@PathVariable Long id) {
         boardService.deleteBoard(id);
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.selectBoardList());
     }
 
 }

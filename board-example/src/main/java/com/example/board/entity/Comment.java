@@ -1,6 +1,5 @@
 package com.example.board.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -21,7 +20,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "board_id")
-    @JsonIgnore
     private Board board;
 
     @Column(length = 400, nullable = false)
