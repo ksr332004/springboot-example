@@ -49,24 +49,42 @@ public class BoardService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOARD_NOT_EXIST));
     }
 
-    public Board insertBoard(BoardDTO.RequestToCreate boardDTO) {
-        return boardRepository.save(
+    @Transactional
+    public BoardDTO.ResponseToDetail insertBoard(BoardDTO.RequestToCreate boardDTO) {
+        Board board = boardRepository.save(
                 Board.builder()
                         .title(boardDTO.getTitle())
                         .content(boardDTO.getContent())
-                        .build()
-        );
+                        .build());
+        return BoardDTO.ResponseToDetail.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createDate(board.getCreateDate())
+                .build();
     }
 
     @Transactional
-    public Board updateBoard(BoardDTO.RequestToUpdate boardDTO) {
-        return boardRepository.findById(boardDTO.getId())
+    public BoardDTO.ResponseToDetail updateBoard(BoardDTO.RequestToUpdate boardDTO) {
+        Board board = boardRepository.findById(boardDTO.getId())
                 .map(b -> {
                     b.setTitle(boardDTO.getTitle());
                     b.setContent(boardDTO.getContent());
                     return boardRepository.save(b);
                 })
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOARD_NOT_EXIST));
+        return BoardDTO.ResponseToDetail.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createDate(board.getCreateDate())
+                .comments(board.getComments().stream()
+                        .map(c -> CommentDTO.ResponseToDetail.builder()
+                                .id(c.getId())
+                                .content(c.getContent())
+                                .createDate(c.getCreateDate()).build())
+                        .collect(Collectors.toList())
+                ).build();
     }
 
     public void deleteBoard(Long id) {

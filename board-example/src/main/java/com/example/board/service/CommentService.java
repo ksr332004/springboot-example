@@ -19,25 +19,35 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public Comment insertComment(Long id, CommentDTO.RequestToCreate commentDTO) {
-        Comment comment = Comment.builder().content(commentDTO.getContent()).build();
-        return boardRepository.findById(id)
-                .map(b -> {
-                    comment.setBoard(b);
-                    return commentRepository.save(comment);
-                })
+    public CommentDTO.ResponseToDetail insertComment(Long id, CommentDTO.RequestToCreate commentDTO) {
+        Comment comment = boardRepository.findById(id)
+                .map(b -> commentRepository.save(
+                        Comment.builder()
+                                .content(commentDTO.getContent())
+                                .board(b).build()))
                 .orElseThrow(() -> new BusinessException(ErrorCode.BOARD_NOT_EXIST));
+
+        return CommentDTO.ResponseToDetail.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .createDate(comment.getCreateDate())
+                .build();
     }
 
     @Transactional
-    public Comment updateComment(CommentDTO.RequestToUpdate commentDTO) {
-        Comment comment = Comment.builder().id(commentDTO.getId()).content(commentDTO.getContent()).build();
-        return commentRepository.findById(comment.getId())
+    public CommentDTO.ResponseToDetail updateComment(CommentDTO.RequestToUpdate commentDTO) {
+        Comment comment = commentRepository.findById(commentDTO.getId())
                 .map(c -> {
-                    c.setContent(comment.getContent());
-                    return commentRepository.save(comment);
+                    c.setContent(commentDTO.getContent());
+                    return commentRepository.save(c);
                 })
                 .orElseThrow(() -> new BusinessException(ErrorCode.COMMENT_NOT_EXIST));
+
+        return CommentDTO.ResponseToDetail.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .createDate(comment.getCreateDate())
+                .build();
     }
 
     @Transactional

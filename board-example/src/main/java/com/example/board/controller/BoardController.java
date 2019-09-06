@@ -29,14 +29,12 @@ public class BoardController {
 
     @PostMapping("/board")
     public ResponseEntity<BoardDTO.ResponseToDetail> addBoard(@Valid @RequestBody BoardDTO.RequestToCreate boardDTO) {
-        Board board = boardService.insertBoard(boardDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(boardService.selectBoard(board.getId()));
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.insertBoard(boardDTO));
     }
 
     @PutMapping("/board")
     public ResponseEntity<BoardDTO.ResponseToDetail> updateBoard(@RequestBody BoardDTO.RequestToUpdate boardDTO) {
-        Board board = boardService.updateBoard(boardDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(boardService.selectBoard(board.getId()));
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.updateBoard(boardDTO));
     }
 
     @DeleteMapping("/board/{id}")
